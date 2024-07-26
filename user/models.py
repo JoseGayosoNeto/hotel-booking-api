@@ -1,19 +1,27 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from hotels.models import Hotel
 from roles.models import Role
 
+from .managers import CustomUserManager
 
-class CustomUser(User):
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     class UserGender(models.IntegerChoices):
         MALE = 1, "Male"
         FEMALE = 2, "Female"
         OTHER = 3, "Other"
 
-    date_of_birthday = models.DateTimeField(null=False, blank=False)
+    email= models.EmailField(_("email address"), unique=True)
+    first_name = models.CharField(max_length=100, blank=False, null=False)
+    last_name = models.CharField(max_length=100, blank=False, null=False)
+    date_of_birthday = models.DateTimeField(null=True, blank=True)
     gender = models.IntegerField(choices=UserGender.choices, default=UserGender.MALE,
                                  null=False, blank=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     phone_number = models.CharField(max_length=20, null=False, blank=False)
     address = models.CharField(max_length=100, null=False, blank=False)
     postal_code = models.CharField(max_length=20, null=False, blank=False)
@@ -22,8 +30,17 @@ class CustomUser(User):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Custom Users"
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.email}'
 
 
 class Employee(CustomUser):
