@@ -8,9 +8,9 @@ from user.models import Guest
 class Booking(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.PROTECT, related_name='hotel_bookings')
     guests = models.ManyToManyField(Guest)
-    room = models.ForeignKey(Room, on_delete=models.PROTECT, related_name='rooms')
+    room = models.ForeignKey(Room, on_delete=models.PROTECT, related_name='bookings')
     service = models.ForeignKey(RoomService, on_delete=models.PROTECT,
-                                related_name='booking_services')
+                                related_name='booking_services', null=True, blank=True)
     booking_scheduled_at = models.DateTimeField(null=False, blank=False)
     arrival_date = models.DateTimeField(null=False, blank=False)
     departure_date = models.DateTimeField(null=False, blank=False)
@@ -25,4 +25,9 @@ class Booking(models.Model):
         ordering = ['-booking_scheduled_at']
 
     def __str__(self):
-        return f'Booking: {self.hotel} - {self.guests} - {self.room}'
+        arrival_date = self.arrival_date.strftime("%m-%d-%Y")
+        departure_date = self.departure_date.strftime("%m-%d-%Y")
+        guests = ', '.join(f'{guest.first_name} {guest.last_name}' for guest in self.guests.all())
+        return f"Booking(Hotel:'{self.hotel.name}', Guests:'{guests}', \
+                    Arrival Date:'{arrival_date}', \
+                    Departure Date: '{departure_date}'"
