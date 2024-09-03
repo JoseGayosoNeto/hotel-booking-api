@@ -1,4 +1,4 @@
-from drf_standardized_errors.openapi import AutoSchema
+from drf_standardized_errors.openapi import AutoSchema as DrfStandardizedAutoSchema
 from rest_framework import generics
 from roles.models import Role
 from roles.serializers import RoleSerializer
@@ -6,7 +6,7 @@ from roles.serializers import RoleSerializer
 class RoleListCreateView(generics.ListCreateAPIView):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
-    schema = AutoSchema()
+    schema = DrfStandardizedAutoSchema()
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -21,3 +21,4 @@ class RoleListCreateView(generics.ListCreateAPIView):
 class RoleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
+    schema = DrfStandardizedAutoSchema()
