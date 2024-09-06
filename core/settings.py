@@ -64,8 +64,13 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Hotel Booking API',
     'DESCRIPTION': 'An Django API to manage hotel reservations, rooms and guest services.',
-    'VERSION': '1.0.0',
+    'VERSION': '1.0.1',
     'SERVE_INCLUDE_SCHEMA': False,
+    'CONTACT': {'name': 'José Pires Gayoso de Almendra Freitas Neto',
+                'email': 'josegayosoneto@outlook.com.br',
+                'url': None},
+    'LICENSE': {'name': 'MIT License'},
+    'COMPONENT_SPLIT_REQUEST': True,
     "ENUM_NAME_OVERRIDES": {
         "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
         "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
@@ -80,6 +85,7 @@ SPECTACULAR_SETTINGS = {
         "ErrorCode500Enum": "drf_standardized_errors.openapi_serializers.ErrorCode500Enum.choices",
     },
     "POSTPROCESSING_HOOKS": ["drf_standardized_errors.openapi_hooks.postprocess_schema_enums"],
+    "SCHEMA_PATH_PREFIX": '/api/v[0-9]',
 }
 
 MIDDLEWARE = [

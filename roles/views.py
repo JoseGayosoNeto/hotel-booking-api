@@ -3,6 +3,7 @@ from rest_framework import generics
 from roles.models import Role
 from roles.serializers import RoleSerializer
 
+
 class RoleListCreateView(generics.ListCreateAPIView):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
