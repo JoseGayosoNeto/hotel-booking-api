@@ -1,11 +1,20 @@
+from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
 from drf_standardized_errors.openapi import AutoSchema as DrfStandardizedAutoSchema
 from rest_framework import generics
 from roles.models import Role
 from roles.serializers import RoleSerializer
 
 
+@extend_schema_view(
+    get=extend_schema(
+        parameters=[
+            OpenApiParameter(name='name', type=str, location=OpenApiParameter.QUERY,
+                            required=False, description='Filter roles by names or characters.')
+        ]
+    )
+)
 class RoleListCreateView(generics.ListCreateAPIView):
-    queryset = Role.objects.all()
+    queryset = Role.objects.all().order_by('id')
     serializer_class = RoleSerializer
     schema = DrfStandardizedAutoSchema()
 

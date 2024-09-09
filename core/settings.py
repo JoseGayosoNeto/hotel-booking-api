@@ -59,6 +59,8 @@ AUTH_USER_MODEL = "user.CustomUser"
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_standardized_errors.openapi.AutoSchema',
     'EXCEPTION_HANDLER': 'drf_standardized_errors.handler.exception_handler',
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.CustomPagination',
+    'PAGE_SIZE': 5,
 }
 
 SPECTACULAR_SETTINGS = {
