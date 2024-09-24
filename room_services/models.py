@@ -18,4 +18,4 @@ class RoomService(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.service_name)
+        return self.get_service_name_display()
